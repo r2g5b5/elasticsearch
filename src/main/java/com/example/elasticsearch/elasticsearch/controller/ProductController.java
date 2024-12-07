@@ -1,6 +1,7 @@
 package com.example.elasticsearch.elasticsearch.controller;
 
 import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.example.elasticsearch.elasticsearch.entity.Product;
 import com.example.elasticsearch.elasticsearch.service.ElasticSearchService;
 import com.example.elasticsearch.elasticsearch.service.ProductService;
@@ -8,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -44,12 +47,37 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
-
     @GetMapping("/matchAll")
-    public SearchResponse<Map> matchAll() throws IOException {
-        SearchResponse<Map> searchResponse = elasticSearchService.search();
+    public String matchAll() throws IOException {
+        SearchResponse<Map> searchResponse = elasticSearchService.matchAllServices();
         System.out.println(searchResponse.hits().hits().toString());
-        return searchResponse;
+        return searchResponse.hits().hits().toString();
+    }
 
+
+    @GetMapping("/matchAllProducts")
+    public List<Product> matchAllProducts() throws IOException {
+        SearchResponse<Product> searchResponse = elasticSearchService.matchAllProductsServices();
+        System.out.println(searchResponse.hits().hits().toString());
+
+        List<Hit<Product>> listOfHits = searchResponse.hits().hits();
+        List<Product> listOfProducts = new ArrayList<>();
+        for (Hit<Product> hit : listOfHits) {
+            listOfProducts.add(hit.source());
+        }
+        return listOfProducts;
+    }
+
+    @GetMapping("/matchAllProducts/{fieldValue}")
+    public List<Product> matchAllProductsWithName(@PathVariable String fieldValue) throws IOException {
+        SearchResponse<Product> searchResponse = elasticSearchService.matchProductsWithName(fieldValue);
+        System.out.println(searchResponse.hits().hits().toString());
+
+        List<Hit<Product>> listOfHits = searchResponse.hits().hits();
+        List<Product> listOfProducts = new ArrayList<>();
+        for (Hit<Product> hit : listOfHits) {
+            listOfProducts.add(hit.source());
+        }
+        return listOfProducts;
     }
 }
