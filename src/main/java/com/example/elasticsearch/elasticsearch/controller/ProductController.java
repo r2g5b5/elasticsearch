@@ -41,7 +41,6 @@ public class ProductController {
         return productService.updateProduct(product, id);
     }
 
-
     @DeleteMapping("/delete/{id}")
     public void deleteProduct(@Param("id") Long id) {
         productService.deleteProduct(id);
@@ -54,12 +53,10 @@ public class ProductController {
         return searchResponse.hits().hits().toString();
     }
 
-
     @GetMapping("/matchAllProducts")
     public List<Product> matchAllProducts() throws IOException {
         SearchResponse<Product> searchResponse = elasticSearchService.matchAllProductsServices();
         System.out.println(searchResponse.hits().hits().toString());
-
         List<Hit<Product>> listOfHits = searchResponse.hits().hits();
         List<Product> listOfProducts = new ArrayList<>();
         for (Hit<Product> hit : listOfHits) {
@@ -72,7 +69,6 @@ public class ProductController {
     public List<Product> matchAllProductsWithName(@PathVariable String fieldValue) throws IOException {
         SearchResponse<Product> searchResponse = elasticSearchService.matchProductsWithName(fieldValue);
         System.out.println(searchResponse.hits().hits().toString());
-
         List<Hit<Product>> listOfHits = searchResponse.hits().hits();
         List<Product> listOfProducts = new ArrayList<>();
         for (Hit<Product> hit : listOfHits) {
