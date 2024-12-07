@@ -24,7 +24,6 @@ public class ElasticSearchService {
         System.out.println("elasticsearch query is "+supplier.get().toString());
         return searchResponse;
     }
-    //matchAllProducts video content
 
     public SearchResponse<Product> matchAllProductsServices() throws IOException {
         Supplier<Query> supplier  = ElasticSearchUtil.supplier();
@@ -33,7 +32,6 @@ public class ElasticSearchService {
         return searchResponse;
     }
 
-    //matchProductWithName
 
     public SearchResponse<Product> matchProductsWithName(String fieldValue) throws IOException {
         Supplier<Query> supplier  = ElasticSearchUtil.supplierWithNameField(fieldValue);
