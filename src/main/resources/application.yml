@@ -1,0 +1,12 @@
+spring:
+  elasticsearch:
+    uris: "http://localhost:9211"
+    username: "elastic"
+    password: "vVsvBxIAaanrBEVR21J-"
+
+
+logging:
+  level:
+    org.springframework.data.elasticsearch: DEBUG
+server:
+  port: 8090

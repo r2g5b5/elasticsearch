@@ -1,0 +1,21 @@
+services:
+  elasticsearch:
+    image: elasticsearch:8.10.1
+    container_name: hazhir-elasticsearch
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - "9211:9200"
+      - "9311:9300"
+    environment:
+      TZ: Asia/Tehran
+      node.name: elasticsearch
+      ES_JAVA_OPTS: -Xms512m -Xmx1024m
+      ELASTIC_PASSWORD: vVsvBxIAaanrBEVR21J-
+      xpack.security.enabled: "false"
+      discovery.type: single-node
+    restart: unless-stopped
+
+volumes:
+  elasticsearch-data:
+
