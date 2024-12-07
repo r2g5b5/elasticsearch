@@ -22,13 +22,13 @@ public class ProductService {
         return productRepo.save(product);
     }
 
-  /*  public Product updateProduct(Product product, int id) {
-        Product product1  = productRepo.findById(id).get();
+    public Product updateProduct(Product product, Long id) {
+        Product product1 = productRepo.findById(id).orElseThrow();
         product1.setPrice(product.getPrice());
         return product1;
-    }*/
+    }
 
-    public void deleteProduct(Long id ) {
+    public void deleteProduct(Long id) {
         productRepo.deleteById(id);
     }
 }

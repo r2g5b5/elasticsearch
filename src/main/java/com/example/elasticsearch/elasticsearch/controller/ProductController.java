@@ -4,6 +4,7 @@ import co.elastic.clients.elasticsearch.core.SearchResponse;
 import com.example.elasticsearch.elasticsearch.entity.Product;
 import com.example.elasticsearch.elasticsearch.service.ElasticSearchService;
 import com.example.elasticsearch.elasticsearch.service.ProductService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -32,10 +33,21 @@ public class ProductController {
         return productService.insertProduct(product);
     }
 
+    @PutMapping("/update/{id}")
+    public Product updateProduct(@RequestBody Product product, @Param("id") Long id) {
+        return productService.updateProduct(product, id);
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteProduct(@Param("id") Long id) {
+        productService.deleteProduct(id);
+    }
+
 
     @GetMapping("/matchAll")
     public SearchResponse<Map> matchAll() throws IOException {
-        SearchResponse<Map> searchResponse= elasticSearchService.search();
+        SearchResponse<Map> searchResponse = elasticSearchService.search();
         System.out.println(searchResponse.hits().hits().toString());
         return searchResponse;
 
